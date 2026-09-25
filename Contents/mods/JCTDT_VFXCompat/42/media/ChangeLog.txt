@@ -1,0 +1,4 @@
+1.0.0: Initial release
+  Adds Vanilla Foods Expanded canned foods to Just Craft The Damn Thing's
+  screwdriver/scissors can-opening recipes, on the fly, only when both mods
+  are present.

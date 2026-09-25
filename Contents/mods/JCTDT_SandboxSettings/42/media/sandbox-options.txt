@@ -1,0 +1,52 @@
+VERSION = 1,
+
+option JCTDTSandbox.enableSewSheetFromRags
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableSewSheetFromRags,
+}
+option JCTDTSandbox.enableBookToPaper
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableBookToPaper,
+}
+option JCTDTSandbox.enableClothingToRippedSheets
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableClothingToRippedSheets,
+}
+option JCTDTSandbox.enableOpenCanScrewdriver
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableOpenCanScrewdriver,
+}
+option JCTDTSandbox.enableOpenCanScissors
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableOpenCanScissors,
+}
+option JCTDTSandbox.enableStonesToWhetstone
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableStonesToWhetstone,
+}
+option JCTDTSandbox.enableRabbitSkullToBone
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableRabbitSkullToBone,
+}
+option JCTDTSandbox.enableCraftMetalPipe
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableCraftMetalPipe,
+}
+option JCTDTSandbox.enableCraftSledgehammer
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enableCraftSledgehammer,
+}
+option JCTDTSandbox.enablePlankToLongSticks
+{
+	type = boolean, default = true,
+	page = JCTDTSandbox, translation = JCTDTSandbox_enablePlankToLongSticks,
+}

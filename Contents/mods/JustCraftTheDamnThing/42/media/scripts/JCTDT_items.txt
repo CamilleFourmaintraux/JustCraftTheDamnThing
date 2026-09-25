@@ -1,0 +1,90 @@
+module Base
+{
+
+	model ImprovisedSledgeHammer_Ground
+	{
+		mesh = weapons/2handed/SledgeHammer,
+		texture = JCTDT_ImprovisedSledgehammer,
+		scale = 0.9,
+
+		attachment world
+		{
+			offset = 0.01 0.40 0.00,
+			rotate = 0.0 0.0 90.0,
+		}
+	}
+
+	model ImprovisedSledgeHammer
+	{
+		mesh = weapons/2handed/SledgeHammer,
+		texture = JCTDT_ImprovisedSledgehammer,
+		scale = 0.9,
+	}
+
+
+	/*
+	========================================================================
+	 ImprovisedSledgehammer -- a weaker, easier-to-craft Sledgehammer.
+	 Same sprite / 3D model as the vanilla Sledgehammer, but:
+	   - slightly less damage      (Min/Max 1.8/2.8 vs 2.0/3.0)
+	   - slightly heavier          (Weight 6.5 vs 6.0)
+	   - slightly slower           (BaseSpeed 0.85 vs 0.9)
+	   - 1/4 the durability        (ConditionMax 3 vs 10, HeadCondition 3 vs 10)
+	 Keeps the base:sledgehammer tag so it works for all sledgehammer mechanics
+	 (breaking walls/floors, etc). No forge research recipes attached.
+	 WorldStaticModel points at the ImprovisedSledgehammer model which is just a retexture of the vanilla model.
+	========================================================================
+	*/
+	item ImprovisedSledgehammer
+	{
+		DisplayCategory = ToolWeapon,
+		ItemType = base:weapon,
+		Weight = 6.0,
+		Icon = JCTDT_ImprovisedSledgehammerIcon,
+		AlwaysKnockdown = true,
+		AttachmentType = BigBlade,
+		BaseSpeed = 0.85,
+		BreakSound = SledgehammerBreak,
+		CantAttackWithLowestEndurance = true,
+		Categories = base:blunt,
+		ConditionLowerChanceOneIn = 15,
+		ConditionMax = 3,
+		CritDmgMultiplier = 2.0,
+		DoorDamage = 40,
+		DoorHitSound = SledgehammerHit,
+		DropSound = SledgehammerDrop,
+		EnduranceMod = 4.0,
+		HitFloorSound = SledgehammerHit,
+		HitSound = SledgehammerHit,
+		IdleAnim = Idle_Weapon2,
+		KnockBackOnNoDeath = true,
+		KnockdownMod = 3.0,
+		MaxDamage = 2.8,
+		MaxHitcount = 3,
+		MaxRange = 1.35,
+		MetalValue = 120.0,
+		MinAngle = 0.8,
+		MinDamage = 1.8,
+		MinRange = 0.7,
+		MinimumSwingtime = 4.0,
+		PushBackMod = 1.0,
+		RequiresEquippedBothHands = true,
+		RunAnim = Run_Weapon2,
+		SplatBloodOnNoDeath = false,
+		SplatNumber = 3,
+		SubCategory = Swinging,
+		SwingAmountBeforeImpact = 0.04,
+		SwingAnim = Heavy,
+		SwingSound = SledgehammerSwing,
+		Swingtime = 2.0,
+		TreeDamage = 10,
+		TwoHandWeapon = true,
+		WeaponLength = 0.60,
+		WeaponSprite = ImprovisedSledgeHammer,
+        WorldStaticModel = ImprovisedSledgeHammer_Ground,
+		Tags = base:sledgehammer;base:hastoolhead;base:repairwithglue;base:repairwithtape;base:hasmetal,
+		OnBreak = OnBreak.Sledgehammer,
+		HeadCondition = 3,
+		HeadConditionLowerChanceMultiplier = 1.0,
+	}
+}

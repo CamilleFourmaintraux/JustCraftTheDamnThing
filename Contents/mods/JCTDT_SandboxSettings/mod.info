@@ -1,0 +1,11 @@
+name=Just Craft The Damn Thing - Sandbox Settings
+id=JCTDT_SandboxSettings
+description=Adds sandbox options to enable/disable each Just Craft The Damn Thing
+description=recipe individually. Requires both Just Craft The Damn Thing and
+description=dane's Library. Does nothing on its own.
+poster=poster.png
+icon=poster.png
+author=Camille
+modversion=1.0.0
+versionMin=42.0
+require=JustCraftTheDamnThing,daneLibrary

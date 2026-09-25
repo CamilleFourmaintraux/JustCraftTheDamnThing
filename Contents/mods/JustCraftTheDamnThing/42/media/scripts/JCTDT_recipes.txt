@@ -1,0 +1,297 @@
+module Base
+{
+	/*
+	========================================================================
+	 Just Craft The Damn Thing  --  Build 42 craftRecipe definitions
+	 Conventions taken from vanilla recipes_tailoring.txt / recipes_cannedFood.txt:
+	 - Sewing:      timedAction = SewingCloth   (needle animation + sound)
+	 - Ripping:     timedAction = RipClothing   (rip animation + cloth-tearing sound)
+	 - Cans:        explicit item list + itemMapper, plus the vanilla
+	                RecipeCodeOnCreate.openCan handler (does the conversion and
+	                the vanilla injury / tool-damage roll)
+	 - Skills:      MetalWelding and Carving are the exact B42 perk names
+	 - Tags:        InHandCraft = shows in the hand menu; AnySurfaceCraft = needs
+	                a surface; removing CanBeDoneInDark makes a recipe need light
+	 - Shield:      the first craftRecipe in a file can fail to register in B42,
+	                so a harmless placeholder recipe is kept first on purpose
+	 - Translations: media/lua/shared/Translate/<LANG>/*.json (keys = raw recipe ID)
+	========================================================================
+	*/
+
+	/* For some reasons, the first recipe doesn't seem to appear in game, idk why.
+		To counter this phenomenom, I put a bullshit recipe at the top.
+		If you see it in game, that's not suppose to happen. Idk what to tell you man, shit's weird */
+	craftRecipe JCTDT_TearBookIntoScrapPaper
+	{
+		Time = 30,
+		Tags = InHandCraft,
+		category = Miscellaneous,
+		timedAction = RipClothing,
+		inputs
+		{
+			item 1 [Base.Book;Base.Paperback;Base.Magazine;Base.Newspaper;Base.Notebook;Base.Journal;Base.ComicBook] flags[AllowDestroyedItem],
+		}
+		outputs
+		{
+			item 5 Base.SheetPaper2,
+		}
+	}
+
+	/* Book -> Paper. Accepts many literature types (books, paperbacks,
+	   magazines, newspapers, notebooks, journals, comics, etc.). */
+	craftRecipe JCTDT_BookToPaper
+	{
+		Time = 60,
+		Tags = InHandCraft;CanBeDoneInDark,
+		category = Miscellaneous,
+		timedAction = RipClothing,
+		inputs
+		{
+			item 1 [Base.Book;Base.Paperback;Base.Magazine;Base.Newspaper;Base.Notebook;Base.Journal;Base.ComicBook] flags[AllowDestroyedItem],
+		}
+		outputs
+		{
+			item 10 Base.SheetPaper2,
+		}
+	}
+
+	/* 10 Rags + Thread + Needle -> Sheet. Needle kept (tool, may degrade).
+	   Requires Tailoring 1; awards a little Tailoring XP. */
+	craftRecipe JCTDT_SewSheetFromRags
+	{
+		Time = 220,
+		Tags = InHandCraft,
+		category = Tailoring,
+		timedAction = SewingCloth,
+		SkillRequired = Tailoring:1,
+		xpAward = Tailoring:5,
+		inputs
+		{
+			item 1 tags[base:sewingneedle] mode:keep flags[MayDegradeLight],
+			item 1 tags[base:thread] mode:destroy,
+			item 10 [Base.RippedSheets],
+		}
+		outputs
+		{
+			item 1 Base.Sheet,
+		}
+	}
+
+	/* Clothing -> Rag (RippedSheets). Socks, underwear and bras in one recipe,
+	   like Book -> Paper. Cloth items only (no silk/hide/etc). RipClothing anim.
+	   The item must not be worn. */
+	craftRecipe JCTDT_ClothingToRippedSheets
+	{
+		Time = 60,
+		Tags = InHandCraft;CanBeDoneInDark,
+		category = Tailoring,
+		timedAction = RipClothing,
+		Tooltip = Tooltip_JCTDT_NotWorn,
+		xpAward = Tailoring:1,
+		inputs
+		{
+			item 1 [Base.Socks_Ankle;Base.Socks_Ankle_Black;Base.Socks_Ankle_White;Base.Socks_Long;Base.Socks_Long_Black;Base.Socks_Long_White;Base.Socks_Heavy;Base.Boxers_Hearts;Base.Boxers_RedStripes;Base.Boxers_White;Base.Briefs_White;Base.Briefs_AnimalPrints;Base.Briefs_Rag;Base.Underpants_Black;Base.Underpants_RedSpots;Base.Underpants_White;Base.Underpants_AnimalPrint;Base.FrillyUnderpants_Black;Base.FrillyUnderpants_Pink;Base.FrillyUnderpants_Red;Base.Bra_Straps_Black;Base.Bra_Straps_White;Base.Bra_Straps_AnimalPrint;Base.Bra_Straps_FrillyBlack;Base.Bra_Straps_FrillyPink;Base.Bra_Straps_FrillyRed;Base.Bra_Strapless_Black;Base.Bra_Strapless_RedSpots;Base.Bra_Strapless_White;Base.Bra_Strapless_AnimalPrint;Base.Bra_Strapless_FrillyBlack;Base.Bra_Strapless_FrillyPink;Base.Bra_Strapless_FrillyRed] flags[IsNotWorn],
+		}
+		outputs
+		{
+			item 1 Base.RippedSheets,
+		}
+	}
+
+	/* Canned Food + Screwdriver -> Opened Canned Food.
+	   Uses the vanilla RecipeCodeOnCreate.openCan handler, which converts the
+	   can and applies the vanilla injury/tool-damage logic. Needs light + a
+	   surface; the screwdriver may degrade. */
+	craftRecipe JCTDT_OpenCanScrewdriver
+	{
+		Time = 90,
+		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+		timedAction = OpenTinCanWithKnife,
+		Tooltip = Tooltip_Recipe_OpenCanWithKnife,
+		OnCreate = RecipeCodeOnCreate.openCan,
+		inputs
+		{
+			item 1 tags[Screwdriver] mode:keep flags[MayDegrade],
+			item 1 [Base.TinnedBeans;Base.CannedBolognese;Base.CannedCarrots2;Base.CannedChili;Base.CannedCorn;Base.CannedMilk;Base.CannedFruitBeverage;Base.CannedFruitCocktail;Base.CannedMushroomSoup;Base.CannedPeaches;Base.CannedPeas;Base.CannedPineapple;Base.CannedPotato2;Base.TinnedSoup;Base.CannedTomato2;Base.TunaTin;Base.Dogfood;Base.CannedCornedBeef;Base.CannedSardines] mappers[JCTDTcanSorts] flags[Prop2;DontPutBack],
+		}
+		outputs
+		{
+			item 1 mapper:JCTDTcanSorts,
+		}
+		itemMapper JCTDTcanSorts
+		{
+			Base.OpenBeans = Base.TinnedBeans,
+			Base.CannedBologneseOpen = Base.CannedBolognese,
+			Base.CannedCarrotsOpen = Base.CannedCarrots2,
+			Base.CannedChiliOpen = Base.CannedChili,
+			Base.CannedCornOpen = Base.CannedCorn,
+			Base.CannedMilkOpen = Base.CannedMilk,
+			Base.CannedFruitBeverageOpen = Base.CannedFruitBeverage,
+			Base.CannedFruitCocktailOpen = Base.CannedFruitCocktail,
+			Base.CannedMushroomSoupOpen = Base.CannedMushroomSoup,
+			Base.CannedPeachesOpen = Base.CannedPeaches,
+			Base.CannedPeasOpen = Base.CannedPeas,
+			Base.CannedPineappleOpen = Base.CannedPineapple,
+			Base.CannedPotatoOpen = Base.CannedPotato2,
+			Base.TinnedSoupOpen = Base.TinnedSoup,
+			Base.CannedTomatoOpen = Base.CannedTomato2,
+			Base.TunaTinOpen = Base.TunaTin,
+			Base.DogfoodOpen = Base.Dogfood,
+			Base.CannedCornedBeefOpen = Base.CannedCornedBeef,
+			Base.CannedSardinesOpen = Base.CannedSardines,
+		}
+	}
+
+	/* Canned Food + Scissors -> Opened Canned Food.
+	   Uses the vanilla RecipeCodeOnCreate.openCan handler. Needs light + a
+	   surface; the scissors may degrade. */
+	craftRecipe JCTDT_OpenCanScissors
+	{
+		Time = 80,
+		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+		timedAction = OpenTinCanWithKnife,
+		Tooltip = Tooltip_Recipe_OpenCanWithKnife,
+		OnCreate = RecipeCodeOnCreate.openCan,
+		inputs
+		{
+			item 1 tags[Scissors] mode:keep flags[MayDegrade],
+			item 1 [Base.TinnedBeans;Base.CannedBolognese;Base.CannedCarrots2;Base.CannedChili;Base.CannedCorn;Base.CannedMilk;Base.CannedFruitBeverage;Base.CannedFruitCocktail;Base.CannedMushroomSoup;Base.CannedPeaches;Base.CannedPeas;Base.CannedPineapple;Base.CannedPotato2;Base.TinnedSoup;Base.CannedTomato2;Base.TunaTin;Base.Dogfood;Base.CannedCornedBeef;Base.CannedSardines] mappers[JCTDTcanSorts2] flags[Prop2;DontPutBack],
+		}
+		outputs
+		{
+			item 1 mapper:JCTDTcanSorts2,
+		}
+		itemMapper JCTDTcanSorts2
+		{
+			Base.OpenBeans = Base.TinnedBeans,
+			Base.CannedBologneseOpen = Base.CannedBolognese,
+			Base.CannedCarrotsOpen = Base.CannedCarrots2,
+			Base.CannedChiliOpen = Base.CannedChili,
+			Base.CannedCornOpen = Base.CannedCorn,
+			Base.CannedMilkOpen = Base.CannedMilk,
+			Base.CannedFruitBeverageOpen = Base.CannedFruitBeverage,
+			Base.CannedFruitCocktailOpen = Base.CannedFruitCocktail,
+			Base.CannedMushroomSoupOpen = Base.CannedMushroomSoup,
+			Base.CannedPeachesOpen = Base.CannedPeaches,
+			Base.CannedPeasOpen = Base.CannedPeas,
+			Base.CannedPineappleOpen = Base.CannedPineapple,
+			Base.CannedPotatoOpen = Base.CannedPotato2,
+			Base.TinnedSoupOpen = Base.TinnedSoup,
+			Base.CannedTomatoOpen = Base.CannedTomato2,
+			Base.TunaTinOpen = Base.TunaTin,
+			Base.DogfoodOpen = Base.Dogfood,
+			Base.CannedCornedBeefOpen = Base.CannedCornedBeef,
+			Base.CannedSardinesOpen = Base.CannedSardines,
+		}
+	}
+
+	/* 3 Stones -> Improvised Whetstone. Alternative to the magazine recipe:
+	   no recipe to learn, but needs Maintenance 1 + a surface and takes about
+	   twice as long as vanilla, so the vanilla recipe stays worthwhile. */
+	craftRecipe JCTDT_StonesToWhetstone
+	{
+		Time = 460,
+		Tags = AnySurfaceCraft,
+		category = Miscellaneous,
+		timedAction = Making,
+		SkillRequired = Maintenance:1,
+		xpAward = Maintenance:5,
+		inputs
+		{
+			item 3 [Base.Stone2],
+		}
+		outputs
+		{
+			item 1 Base.CrudeWhetstone,
+		}
+	}
+
+	/* Rabbit Skull -> Bone. Requires Strength 1. */
+	craftRecipe JCTDT_RabbitSkullToBone
+	{
+		Time = 60,
+		Tags = InHandCraft;CanBeDoneInDark,
+		category = Miscellaneous,
+		timedAction = Making,
+		SkillRequired = Strength:1,
+		inputs
+		{
+			item 1 [Base.Rabbit_Skull],
+		}
+		outputs
+		{
+			item 1 Base.SmallAnimalBone,
+		}
+	}
+
+	/* 1 Metal Sheet + Hammer + Blowtorch + Welding Mask -> Metal Pipe.
+	   Any hammer works. Requires MetalWelding 4, light + a crafting surface. */
+	craftRecipe JCTDT_CraftMetalPipe
+	{
+		Time = 380,
+		Tags = AnySurfaceCraft,
+		category = Welding,
+		timedAction = Welding,
+		SkillRequired = MetalWelding:2,
+		xpAward = MetalWelding:15,
+		inputs
+		{
+			item 1 tags[base:weldingmask] mode:keep,
+			item 1 tags[base:hammer] mode:keep flags[MayDegradeLight],
+            item 2 [Base.BlowTorch],
+			item 1 [Base.SheetMetal],
+		}
+		outputs
+		{
+			item 1 Base.MetalPipe,
+		}
+	}
+
+	/* 1 Metal Bar + 4 Metal Sheets + Hammer + Blowtorch + Welding Mask
+	   -> Improvised Sledgehammer (weaker & less durable than a real one).
+	   Any hammer works. Requires MetalWelding 5, light + a crafting surface. */
+	craftRecipe JCTDT_CraftSledgehammer
+	{
+		Time = 740,
+		Tags = AnySurfaceCraft,
+		category = Welding,
+		timedAction = Welding,
+		SkillRequired = MetalWelding:2,
+		xpAward = MetalWelding:30,
+		inputs
+		{
+			item 1 tags[base:weldingmask] mode:keep,
+			item 1 tags[base:hammer] mode:keep flags[MayDegradeLight],
+            item 2 [Base.BlowTorch],
+			item 1 [Base.MetalBar],
+			item 4 [Base.SheetMetal],
+		}
+		outputs
+		{
+			item 1 Base.ImprovisedSledgehammer,
+		}
+	}
+
+	/* 1 Plank + Knife -> 3 Long Sticks. Any knife works (vanilla carving uses
+	   knives). Requires Carving 1, a crafting surface and light; small Carving XP. */
+	craftRecipe JCTDT_PlankToLongSticks
+	{
+		Time = 100,
+		Tags = AnySurfaceCraft,
+		category = Carving,
+		timedAction = Making,
+		SkillRequired = Carving:1,
+		xpAward = Carving:2,
+		inputs
+		{
+			item 1 tags[base:sharpknife] mode:keep flags[MayDegrade;IsNotDull],
+			item 1 [Base.Plank],
+		}
+		outputs
+		{
+			item 3 Base.LongStick,
+		}
+	}
+}

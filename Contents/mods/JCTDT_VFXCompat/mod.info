@@ -1,0 +1,11 @@
+name=Just Craft The Damn Thing - VFX Food Compatibility
+id=JCTDT_VFXCompat
+description=Compatibility patch: lets Just Craft The Damn Thing's screwdriver/scissors
+description=can-opening recipes accept the extra canned foods from the VanillaFoodsExpanded food mod.
+description=Requires both mods. Does nothing on its own.
+poster=poster.png
+icon=poster.png
+author=Cam3
+modversion=1.0.0
+versionMin=42.0
+require=JustCraftTheDamnThing,VanillaFoodsExpanded

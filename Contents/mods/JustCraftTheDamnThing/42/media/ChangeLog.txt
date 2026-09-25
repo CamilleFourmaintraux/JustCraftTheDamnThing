@@ -1,0 +1,102 @@
+1.2.1: Some fixes + better preview
+
+  Recipes
+    Reworked both metal pipe and improvised sledgehammer recipes.
+    Welding torch is now correctly used in the recipes.
+    They now need less Welding levels to make, now only need 2 instead of 4 and 5.
+
+  Fixes
+    Fixed Improvised SledgeHammer model and icon.
+
+1.2.0: Recipe merge, translations, sandbox settings and fixes
+
+  Recipes
+    Merged the three "rip into rag" recipes into a single "Rip Underwear" recipe
+    (covers all cloth socks, underwear and bras; must not be worn).
+    Carve Long Sticks now uses any knife instead of a saw, to match vanilla carving.
+    Canned-food opening now uses the vanilla open-can handler
+    (RecipeCodeOnCreate.openCan), so it benefits from the game's built-in
+    injury and tool-damage logic and its "open can with knife" tooltip.
+
+  Translations
+    Added translations for French, German, Spanish, Portuguese and Italian.
+
+  Fixes
+    Fixed "Sew Sheet from Rags" disappearing: a B42 quirk can stop the first
+    recipe in a file from registering, so a harmless placeholder recipe now sits
+    first as a shield. Needle and thread also use the correct vanilla tags.
+    Added the missing sock variants to the ripping recipe.
+    Removed a few item IDs that don't exist in vanilla B42.
+
+  Companion mods
+    Added "JustCraftTheDamnThing - Sandbox Settings" (requires dane's Library):
+    enable or disable each recipe individually via sandbox options.
+    The Vanilla Foods Expanded compatibility patch is now its own companion mod
+    in the same family (JCTDT_VFXCompat).
+
+  Known limitations (planned for a later version)
+    Opening a can with a screwdriver/scissors shows a baseball bat during the
+    crafting animation (the crafted prop is hardcoded by the game).
+    Disabling a recipe hides it from the crafting menu, but a few recipes
+    (e.g. rabbit skull, tearing novels) remain reachable from the right-click
+    context menu.
+
+1.1.0: New recipes, skill requirements and Vanilla Foods Expanded mod compatibility
+
+  New recipes
+    Plank + Saw -> 3 Long Sticks (Carve Long Sticks from Plank)
+      Any saw works and is kept as a tool.
+      Requires Carving 1, a crafting surface and light; gives a little Carving XP.
+    Metal Sheet + Hammer + Blowtorch + Welding Mask -> Improvised Metal Pipe
+      Any hammer works. All tools are kept.
+      Requires MetalWelding 4, a crafting surface and light.
+    Metal Bar + 4 Metal Sheets + Hammer + Blowtorch + Welding Mask -> Improvised Sledgehammer
+      Any hammer works. All tools are kept.
+      Requires MetalWelding 5, a crafting surface and light.
+
+  New item
+    Improvised Sledgehammer: a weaker, easier-to-craft alternative to the vanilla
+    Sledgehammer. Same sprite and model, but slightly less damage, slightly heavier,
+    slightly slower, and only a quarter of the durability. Gives players simpler
+    access to sledgehammer mechanics while keeping the harder forge recipe worthwhile
+    for a sturdier tool.
+
+  Recipe improvements
+    Book -> Paper now accepts many literature types (books, paperbacks, magazines,
+      newspapers, notebooks, journals, comics, etc.), not just novels.
+    Ripping recipes now yield 1 rag each and use the proper ripping animation.
+    Sew Sheet from Rags now requires Tailoring 1.
+    Break Rabbit Skull into Bone now requires Strength 1.
+    Canned-food opening recipes now require light and a crafting surface, damage the
+      implement used, and show a "Will damage implement. May injure hand." tooltip.
+
+  Compatibility
+    Added a separate optional submod (requires Just Craft The Damn Thing and
+    Vanilla Foods Expanded) that lets the screwdriver/scissors can-opening recipes
+    also accept Vanilla Foods Expanded's canned foods. It edits the recipes on the
+    fly and does nothing on its own, so the base mod never depends on it and never
+    crashes when the food mod is absent.
+
+  Fixes and polish
+    Correct recipe display names (labels) via JSON translations.
+    Correct sewing, ripping and can-opening animations and sounds.
+    Fixed skill-requirement keywords (MetalWelding, Carving) so level gates work.
+
+1.0.0: Added folder architecture + a few recipes
+
+  10 Ripped Sheets + Thread + Needle -> Sheet
+    The needle is used as a tool and is not consumed.
+    Needle durability is respected when applicable.
+    Requires no Tailoring level but provides a small amount of Tailoring XP.
+  Book -> Paper
+  Socks -> Ripped Sheets
+  Underwear -> Ripped Sheets
+  Bra -> Ripped Sheets
+  Canned Food + Screwdriver -> Opened Canned Food
+  Canned Food + Scissors -> Opened Canned Food
+  Rabbit Skull -> Bone
+  2 Stones -> Improvised Whetstone
+    Provides an alternative to the vanilla recipe without requiring the player to
+    have learned the recipe.
+    The alternative recipe is intentionally more expensive so that the vanilla
+    recipe remains worthwhile.

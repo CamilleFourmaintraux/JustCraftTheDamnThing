@@ -1,0 +1,10 @@
+name=Just Craft The Damn Thing
+id=JustCraftTheDamnThing
+description=Adds a small collection of logical crafting recipes that are missing from vanilla Project Zomboid.
+description=
+description=If your survivor has the materials and the knowledge to figure out something obvious, why shouldn't they be able to just craft the damn thing?
+poster=poster.png
+icon=poster.png
+author=Cam3
+modversion=1.2.1
+versionMin=42.0
